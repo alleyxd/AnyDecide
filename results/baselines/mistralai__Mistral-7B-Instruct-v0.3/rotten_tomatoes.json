@@ -1,0 +1,27 @@
+{
+ "task": "rotten_tomatoes",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:mistralai/Mistral-7B-Instruct-v0.3"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.8433333333333334
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.8433333333333334,
+   "ece": 0.13661792087170854,
+   "brier": 0.27514312566398236,
+   "mean_top_prob": 0.9799512542050415,
+   "mean_confidence": 0.9599025084100835,
+   "sel_acc@50": 0.8866666666666667,
+   "sel_acc@80": 0.9083333333333333,
+   "aurc": 0.08756550621080295,
+   "macro_f1": 0.8431922063190205
+  }
+ },
+ "aggregate": {}
+}

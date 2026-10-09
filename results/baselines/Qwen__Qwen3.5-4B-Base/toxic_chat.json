@@ -1,0 +1,40 @@
+{
+ "task": "toxic_chat",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:Qwen/Qwen3.5-4B-Base"
+ ],
+ "primary": {
+  "head": "toxic",
+  "metric": "f1",
+  "value": 0.5294117647058824
+ },
+ "heads": {
+  "toxic": {
+   "accuracy": 0.9466666666666667,
+   "balanced_accuracy": 0.7160714285714286,
+   "f1": 0.5294117647058824,
+   "precision": 0.6428571428571429,
+   "recall": 0.45,
+   "auroc": 0.9811607142857143,
+   "auprc": 0.7360278273645897,
+   "ece": 0.06679848909757578,
+   "brier": 0.0341785911156099,
+   "positive_rate": 0.06666666666666667
+  },
+  "jailbreak": {
+   "accuracy": 0.96,
+   "balanced_accuracy": 0.5864406779661017,
+   "f1": 0.14285714285714285,
+   "precision": 0.1111111111111111,
+   "recall": 0.2,
+   "auroc": 0.9661016949152542,
+   "auprc": 0.22698556345615167,
+   "ece": 0.10142795290062574,
+   "brier": 0.02949032839850558,
+   "positive_rate": 0.016666666666666666
+  }
+ },
+ "aggregate": {}
+}

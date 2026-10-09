@@ -1,0 +1,28 @@
+{
+ "task": "paws",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:microsoft/Phi-4-mini-instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.5666666666666667
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.5666666666666667,
+   "balanced_accuracy": 0.6302879977952323,
+   "f1": 0.6505376344086021,
+   "precision": 0.4859437751004016,
+   "recall": 0.983739837398374,
+   "auroc": 0.8378577006109044,
+   "auprc": 0.7335261401870474,
+   "ece": 0.39881055279040983,
+   "brier": 0.3501508458030271,
+   "positive_rate": 0.41
+  }
+ },
+ "aggregate": {}
+}

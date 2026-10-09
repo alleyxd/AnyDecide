@@ -1,0 +1,21 @@
+[project]
+name = "anydecide"
+version = "0.1.0"
+description = "Turn a local language model into a fast decision API with typed, probabilistic answers."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{ name = "Ali Ashter" }]
+dependencies = ["torch", "transformers>=5", "peft", "fastapi", "uvicorn", "pydantic>=2"]
+
+[project.optional-dependencies]
+# trl 1.15 needs triton for a fused loss, which is not available on Windows
+train = ["trl>=1.14,<1.15", "datasets"]
+dev = ["pytest", "numpy", "scikit-learn", "datasets"]
+
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["anydecide"]

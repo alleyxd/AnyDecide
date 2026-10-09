@@ -1,0 +1,31 @@
+{
+ "task": "clinc150",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:microsoft/Phi-4-mini-instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.3433333333333333
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.3433333333333333,
+   "ece": 0.5267294534444195,
+   "brier": 1.171274562435885,
+   "mean_top_prob": 0.870062786777753,
+   "mean_confidence": 0.8691965386896046,
+   "sel_acc@50": 0.35333333333333333,
+   "sel_acc@80": 0.3458333333333333,
+   "aurc": 0.6519033587573692,
+   "macro_f1": 0.2507726174306033
+  }
+ },
+ "aggregate": {
+  "in_scope_accuracy": 0.23622047244094488,
+  "oos_recall": 0.9347826086956522,
+  "oos_precision": 0.2037914691943128
+ }
+}

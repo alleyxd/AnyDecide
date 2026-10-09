@@ -1,0 +1,44 @@
+{
+ "clinc150": {
+  "n": 300,
+  "options": 151,
+  "codes": 0.7233333333333334,
+  "names": 0.68,
+  "ms_per_decision": 627.3942335446676
+ },
+ "banking77": {
+  "n": 300,
+  "options": 77,
+  "codes": 0.7166666666666667,
+  "names": 0.67,
+  "ms_per_decision": 466.26466512680054
+ },
+ "financial_phrasebank": {
+  "n": 300,
+  "options": 3,
+  "codes": 0.5433333333333333,
+  "names": 0.57,
+  "ms_per_decision": 71.49924834569295
+ },
+ "ag_news": {
+  "n": 300,
+  "options": 4,
+  "codes": 0.88,
+  "names": 0.9,
+  "ms_per_decision": 169.57438945770264
+ },
+ "emotion": {
+  "n": 300,
+  "options": 6,
+  "codes": 0.54,
+  "names": 0.52,
+  "ms_per_decision": 179.66145197550458
+ },
+ "anli": {
+  "n": 300,
+  "options": 3,
+  "codes": 0.56,
+  "names": 0.53,
+  "ms_per_decision": 184.49816862742105
+ }
+}

@@ -1,0 +1,27 @@
+{
+ "task": "emotion",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:meta-llama/Llama-3.1-8B-Instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.5133333333333333
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.5133333333333333,
+   "ece": 0.32168817451564546,
+   "brier": 0.7587215662268451,
+   "mean_top_prob": 0.8350215078489788,
+   "mean_confidence": 0.8020258094187744,
+   "sel_acc@50": 0.6533333333333333,
+   "sel_acc@80": 0.5833333333333334,
+   "aurc": 0.31532501635982896,
+   "macro_f1": 0.4602520823052267
+  }
+ },
+ "aggregate": {}
+}

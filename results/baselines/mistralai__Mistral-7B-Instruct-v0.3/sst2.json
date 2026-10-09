@@ -1,0 +1,27 @@
+{
+ "task": "sst2",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:mistralai/Mistral-7B-Instruct-v0.3"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.9066666666666666
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.9066666666666666,
+   "ece": 0.08878497784228187,
+   "brier": 0.17777944084753164,
+   "mean_top_prob": 0.9894504767010509,
+   "mean_confidence": 0.9789009534021015,
+   "sel_acc@50": 0.92,
+   "sel_acc@80": 0.9458333333333333,
+   "aurc": 0.04870313512180844,
+   "macro_f1": 0.9064629637878046
+  }
+ },
+ "aggregate": {}
+}

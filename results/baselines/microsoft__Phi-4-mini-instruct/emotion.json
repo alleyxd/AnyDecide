@@ -1,0 +1,27 @@
+{
+ "task": "emotion",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:microsoft/Phi-4-mini-instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.56
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.56,
+   "ece": 0.2958299866248189,
+   "brier": 0.7065773999552679,
+   "mean_top_prob": 0.8558299866248188,
+   "mean_confidence": 0.8269959839497828,
+   "sel_acc@50": 0.7133333333333334,
+   "sel_acc@80": 0.6375,
+   "aurc": 0.3143131057749665,
+   "macro_f1": 0.5168054538846336
+  }
+ },
+ "aggregate": {}
+}

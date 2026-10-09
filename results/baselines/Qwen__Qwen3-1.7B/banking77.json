@@ -1,0 +1,27 @@
+{
+ "task": "banking77",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:Qwen/Qwen3-1.7B"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.2866666666666667
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.2866666666666667,
+   "ece": 0.5111493839761804,
+   "brier": 1.1604545108038355,
+   "mean_top_prob": 0.7978160506428471,
+   "mean_confidence": 0.7951557355197265,
+   "sel_acc@50": 0.41333333333333333,
+   "sel_acc@80": 0.3416666666666667,
+   "aurc": 0.5840864692655293,
+   "macro_f1": 0.26627393988681464
+  }
+ },
+ "aggregate": {}
+}

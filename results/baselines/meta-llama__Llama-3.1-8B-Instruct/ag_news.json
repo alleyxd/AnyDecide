@@ -1,0 +1,27 @@
+{
+ "task": "ag_news",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:meta-llama/Llama-3.1-8B-Instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.9
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.9,
+   "ece": 0.083443711270809,
+   "brier": 0.18007314067557745,
+   "mean_top_prob": 0.9792197407078735,
+   "mean_confidence": 0.9722929876104979,
+   "sel_acc@50": 0.9533333333333334,
+   "sel_acc@80": 0.9416666666666667,
+   "aurc": 0.04490700057972386,
+   "macro_f1": 0.898856299661675
+  }
+ },
+ "aggregate": {}
+}

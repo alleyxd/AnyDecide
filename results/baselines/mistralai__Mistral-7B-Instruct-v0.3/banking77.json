@@ -1,0 +1,27 @@
+{
+ "task": "banking77",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:mistralai/Mistral-7B-Instruct-v0.3"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.57
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.57,
+   "ece": 0.3363132434120058,
+   "brier": 0.7439532873852429,
+   "mean_top_prob": 0.9063132434120058,
+   "mean_confidence": 0.9050805229305848,
+   "sel_acc@50": 0.7666666666666667,
+   "sel_acc@80": 0.6583333333333333,
+   "aurc": 0.26438526147693037,
+   "macro_f1": 0.5557375455929503
+  }
+ },
+ "aggregate": {}
+}

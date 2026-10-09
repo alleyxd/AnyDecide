@@ -1,0 +1,28 @@
+{
+ "task": "paws",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:Qwen/Qwen3.5-9B"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.7333333333333333
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.7333333333333333,
+   "balanced_accuracy": 0.7591291167148959,
+   "f1": 0.7350993377483444,
+   "precision": 0.6201117318435754,
+   "recall": 0.9024390243902439,
+   "auroc": 0.8798401543337467,
+   "auprc": 0.8194625987205708,
+   "ece": 0.15542060435573754,
+   "brier": 0.1698781551186023,
+   "positive_rate": 0.41
+  }
+ },
+ "aggregate": {}
+}

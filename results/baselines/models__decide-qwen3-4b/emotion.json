@@ -1,0 +1,27 @@
+{
+ "task": "emotion",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:models/decide-qwen3-4b"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.5533333333333333
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.5533333333333333,
+   "ece": 0.13380370287979051,
+   "brier": 0.6057884621029107,
+   "mean_top_prob": 0.6785082730454994,
+   "mean_confidence": 0.6142099276545993,
+   "sel_acc@50": 0.6733333333333333,
+   "sel_acc@80": 0.6,
+   "aurc": 0.3009259779476656,
+   "macro_f1": 0.48021521763528513
+  }
+ },
+ "aggregate": {}
+}

@@ -1,0 +1,27 @@
+{
+ "task": "emotion",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:mistralai/Mistral-7B-Instruct-v0.3"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.49
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.49,
+   "ece": 0.47319040437840953,
+   "brier": 0.9827004980175457,
+   "mean_top_prob": 0.9631904043784095,
+   "mean_confidence": 0.9558284852540915,
+   "sel_acc@50": 0.6133333333333333,
+   "sel_acc@80": 0.5333333333333333,
+   "aurc": 0.3926153506487619,
+   "macro_f1": 0.4629844123907805
+  }
+ },
+ "aggregate": {}
+}

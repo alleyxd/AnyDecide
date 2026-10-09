@@ -1,0 +1,27 @@
+{
+ "task": "banking77",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:meta-llama/Llama-3.1-8B-Instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.66
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.66,
+   "ece": 0.1526479247968299,
+   "brier": 0.5183105122753368,
+   "mean_top_prob": 0.8052579627339495,
+   "mean_confidence": 0.8026955675067646,
+   "sel_acc@50": 0.8666666666666667,
+   "sel_acc@80": 0.7583333333333333,
+   "aurc": 0.15472791557560076,
+   "macro_f1": 0.5947686085843981
+  }
+ },
+ "aggregate": {}
+}

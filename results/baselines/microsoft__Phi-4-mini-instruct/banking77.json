@@ -1,0 +1,27 @@
+{
+ "task": "banking77",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:microsoft/Phi-4-mini-instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.52
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.52,
+   "ece": 0.2755642185433882,
+   "brier": 0.7385186329096273,
+   "mean_top_prob": 0.7955642185433883,
+   "mean_confidence": 0.7928742740505382,
+   "sel_acc@50": 0.7533333333333333,
+   "sel_acc@80": 0.625,
+   "aurc": 0.3097842387498459,
+   "macro_f1": 0.4702799758720811
+  }
+ },
+ "aggregate": {}
+}

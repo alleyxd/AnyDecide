@@ -1,0 +1,41 @@
+{
+ "task": "anli",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:microsoft/Phi-4-mini-instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.4
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.4,
+   "ece": 0.5146229151701783,
+   "brier": 1.0421149046815932,
+   "mean_top_prob": 0.9146229151701781,
+   "mean_confidence": 0.8719343727552674,
+   "sel_acc@50": 0.5466666666666666,
+   "sel_acc@80": 0.43333333333333335,
+   "aurc": 0.4700103432495444,
+   "macro_f1": 0.3095962669912761
+  }
+ },
+ "aggregate": {},
+ "subsets": {
+  "r1": {
+   "n": 100,
+   "primary": 0.41
+  },
+  "r2": {
+   "n": 100,
+   "primary": 0.37
+  },
+  "r3": {
+   "n": 100,
+   "primary": 0.42
+  }
+ }
+}

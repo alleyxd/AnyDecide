@@ -1,0 +1,27 @@
+{
+ "task": "rotten_tomatoes",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:meta-llama/Llama-3.1-8B-Instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.8866666666666667
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.8866666666666667,
+   "ece": 0.09174923457210504,
+   "brier": 0.2018706974504309,
+   "mean_top_prob": 0.9500179054383459,
+   "mean_confidence": 0.9000358108766918,
+   "sel_acc@50": 0.96,
+   "sel_acc@80": 0.9291666666666667,
+   "aurc": 0.05200310701368231,
+   "macro_f1": 0.8862571925598823
+  }
+ },
+ "aggregate": {}
+}

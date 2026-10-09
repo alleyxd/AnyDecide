@@ -1,0 +1,81 @@
+{
+ "model": "Qwen/Qwen3-4B",
+ "limit": 300,
+ "seconds": 115,
+ "ok": true,
+ "tasks": {
+  "ag_news": {
+   "metric": "accuracy",
+   "value": 0.8766666666666667,
+   "ece": 0.12170731969432355,
+   "n": 300
+  },
+  "anli": {
+   "metric": "accuracy",
+   "value": 0.5433333333333333,
+   "ece": 0.4384703686165119,
+   "n": 300
+  },
+  "banking77": {
+   "metric": "accuracy",
+   "value": 0.61,
+   "ece": 0.37159316396511666,
+   "n": 300
+  },
+  "boolq": {
+   "metric": "accuracy",
+   "value": 0.8533333333333334,
+   "ece": 0.14627508275705609,
+   "n": 300
+  },
+  "clinc150": {
+   "metric": "accuracy",
+   "value": 0.5933333333333334,
+   "ece": 0.3692822224525031,
+   "n": 300
+  },
+  "emotion": {
+   "metric": "accuracy",
+   "value": 0.54,
+   "ece": 0.45114101463877676,
+   "n": 300
+  },
+  "financial_phrasebank": {
+   "metric": "accuracy",
+   "value": 0.7366666666666667,
+   "ece": 0.25798263424088635,
+   "n": 300
+  },
+  "paws": {
+   "metric": "accuracy",
+   "value": 0.6666666666666666,
+   "ece": 0.33058493119431004,
+   "n": 300
+  },
+  "rotten_tomatoes": {
+   "metric": "accuracy",
+   "value": 0.8833333333333333,
+   "ece": 0.11662359806183531,
+   "n": 300
+  },
+  "sms_spam": {
+   "metric": "f1",
+   "value": 0.5531914893617021,
+   "ece": 0.2018390147587951,
+   "n": 300
+  },
+  "sst2": {
+   "metric": "accuracy",
+   "value": 0.9466666666666667,
+   "ece": 0.05593501872122174,
+   "n": 300
+  },
+  "toxic_chat": {
+   "metric": "f1",
+   "value": 0.75,
+   "ece": 0.033732478215154925,
+   "n": 300
+  }
+ },
+ "examples": 3600
+}

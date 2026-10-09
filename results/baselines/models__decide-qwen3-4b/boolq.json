@@ -1,0 +1,28 @@
+{
+ "task": "boolq",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:models/decide-qwen3-4b"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.88
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.88,
+   "balanced_accuracy": 0.8795358261189906,
+   "f1": 0.8971428571428571,
+   "precision": 0.9127906976744186,
+   "recall": 0.8820224719101124,
+   "auroc": 0.9511650396021366,
+   "auprc": 0.96722894239615,
+   "ece": 0.06405266148032868,
+   "brier": 0.08771988341055593,
+   "positive_rate": 0.5933333333333334
+  }
+ },
+ "aggregate": {}
+}

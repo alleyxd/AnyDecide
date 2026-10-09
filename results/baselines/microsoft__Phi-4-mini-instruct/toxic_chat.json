@@ -1,0 +1,40 @@
+{
+ "task": "toxic_chat",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:microsoft/Phi-4-mini-instruct"
+ ],
+ "primary": {
+  "head": "toxic",
+  "metric": "f1",
+  "value": 0.25
+ },
+ "heads": {
+  "toxic": {
+   "accuracy": 0.94,
+   "balanced_accuracy": 0.5732142857142857,
+   "f1": 0.25,
+   "precision": 0.75,
+   "recall": 0.15,
+   "auroc": 0.9761607142857143,
+   "auprc": 0.7499561622742738,
+   "ece": 0.053108381285525856,
+   "brier": 0.05073714547978991,
+   "positive_rate": 0.06666666666666667
+  },
+  "jailbreak": {
+   "accuracy": 0.9833333333333333,
+   "balanced_accuracy": 0.5,
+   "f1": 0.0,
+   "precision": 0.0,
+   "recall": 0.0,
+   "auroc": 0.9749152542372881,
+   "auprc": 0.7159159159159159,
+   "ece": 0.01578119530110954,
+   "brier": 0.01565809183437519,
+   "positive_rate": 0.016666666666666666
+  }
+ },
+ "aggregate": {}
+}

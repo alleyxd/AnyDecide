@@ -1,0 +1,28 @@
+{
+ "task": "sms_spam",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:Qwen/Qwen3-4B"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "f1",
+  "value": 0.5531914893617021
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.79,
+   "balanced_accuracy": 0.8682692307692308,
+   "f1": 0.5531914893617021,
+   "precision": 0.38613861386138615,
+   "recall": 0.975,
+   "auroc": 0.9849038461538461,
+   "auprc": 0.9413413050140198,
+   "ece": 0.2018390147587951,
+   "brier": 0.19400518600670183,
+   "positive_rate": 0.13333333333333333
+  }
+ },
+ "aggregate": {}
+}

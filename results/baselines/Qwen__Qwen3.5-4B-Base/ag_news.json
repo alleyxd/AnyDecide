@@ -1,0 +1,27 @@
+{
+ "task": "ag_news",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:Qwen/Qwen3.5-4B-Base"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.8533333333333334
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.8533333333333334,
+   "ece": 0.12072734312377956,
+   "brier": 0.2591736130108384,
+   "mean_top_prob": 0.9537224300241643,
+   "mean_confidence": 0.9382965733655525,
+   "sel_acc@50": 0.9466666666666667,
+   "sel_acc@80": 0.9125,
+   "aurc": 0.05321819686681056,
+   "macro_f1": 0.851827754652069
+  }
+ },
+ "aggregate": {}
+}

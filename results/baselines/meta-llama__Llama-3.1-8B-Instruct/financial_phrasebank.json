@@ -1,0 +1,27 @@
+{
+ "task": "financial_phrasebank",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:meta-llama/Llama-3.1-8B-Instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.44666666666666666
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.44666666666666666,
+   "ece": 0.4790050415059437,
+   "brier": 0.9660422791431752,
+   "mean_top_prob": 0.9250343718434548,
+   "mean_confidence": 0.8875515577651822,
+   "sel_acc@50": 0.6333333333333333,
+   "sel_acc@80": 0.49583333333333335,
+   "aurc": 0.3285845679395559,
+   "macro_f1": 0.4585276534856367
+  }
+ },
+ "aggregate": {}
+}

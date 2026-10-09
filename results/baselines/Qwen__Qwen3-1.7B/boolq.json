@@ -1,0 +1,28 @@
+{
+ "task": "boolq",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:Qwen/Qwen3-1.7B"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.8066666666666666
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.8066666666666666,
+   "balanced_accuracy": 0.7803462884509118,
+   "f1": 0.8497409326424871,
+   "precision": 0.7884615384615384,
+   "recall": 0.9213483146067416,
+   "auroc": 0.8955839012709522,
+   "auprc": 0.9271619117800416,
+   "ece": 0.186885593487976,
+   "brier": 0.18329503825863122,
+   "positive_rate": 0.5933333333333334
+  }
+ },
+ "aggregate": {}
+}

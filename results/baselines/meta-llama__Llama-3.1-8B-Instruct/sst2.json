@@ -1,0 +1,27 @@
+{
+ "task": "sst2",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:meta-llama/Llama-3.1-8B-Instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.9466666666666667
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.9466666666666667,
+   "ece": 0.025954147730189617,
+   "brier": 0.07863799795468242,
+   "mean_top_prob": 0.9623723748327208,
+   "mean_confidence": 0.9247447496654414,
+   "sel_acc@50": 0.98,
+   "sel_acc@80": 0.9875,
+   "aurc": 0.023807613438759954,
+   "macro_f1": 0.946607341490545
+  }
+ },
+ "aggregate": {}
+}

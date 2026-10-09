@@ -1,0 +1,27 @@
+{
+ "task": "sst2",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:Qwen/Qwen3-0.6B"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.86
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.86,
+   "ece": 0.06926521671627352,
+   "brier": 0.21795059306069808,
+   "mean_top_prob": 0.9152780840157155,
+   "mean_confidence": 0.8305561680314313,
+   "sel_acc@50": 0.9733333333333334,
+   "sel_acc@80": 0.9166666666666666,
+   "aurc": 0.03943290042937861,
+   "macro_f1": 0.8589404863194662
+  }
+ },
+ "aggregate": {}
+}

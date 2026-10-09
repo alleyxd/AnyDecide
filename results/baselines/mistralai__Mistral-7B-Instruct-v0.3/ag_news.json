@@ -1,0 +1,27 @@
+{
+ "task": "ag_news",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:mistralai/Mistral-7B-Instruct-v0.3"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.8566666666666667
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.8566666666666667,
+   "ece": 0.1385969915670737,
+   "brier": 0.2706026001595268,
+   "mean_top_prob": 0.9793581729892291,
+   "mean_confidence": 0.9724775639856387,
+   "sel_acc@50": 0.94,
+   "sel_acc@80": 0.9041666666666667,
+   "aurc": 0.06907257262847563,
+   "macro_f1": 0.8564324920947437
+  }
+ },
+ "aggregate": {}
+}

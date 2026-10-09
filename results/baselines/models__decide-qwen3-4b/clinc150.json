@@ -1,0 +1,31 @@
+{
+ "task": "clinc150",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:models/decide-qwen3-4b"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.7933333333333333
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.7933333333333333,
+   "ece": 0.08106086276786373,
+   "brier": 0.31628447500847984,
+   "mean_top_prob": 0.7771206968962193,
+   "mean_confidence": 0.7756348348755273,
+   "sel_acc@50": 0.9733333333333334,
+   "sel_acc@80": 0.8791666666666667,
+   "aurc": 0.057050817180940676,
+   "macro_f1": 0.7841260729320432
+  }
+ },
+ "aggregate": {
+  "in_scope_accuracy": 0.8543307086614174,
+  "oos_recall": 0.45652173913043476,
+  "oos_precision": 1.0
+ }
+}

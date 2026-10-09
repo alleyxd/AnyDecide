@@ -1,0 +1,31 @@
+{
+ "task": "clinc150",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:mistralai/Mistral-7B-Instruct-v0.3"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.38
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.38,
+   "ece": 0.4186541328875529,
+   "brier": 1.0126457638807767,
+   "mean_top_prob": 0.7986541328875529,
+   "mean_confidence": 0.7973118271068034,
+   "sel_acc@50": 0.54,
+   "sel_acc@80": 0.43333333333333335,
+   "aurc": 0.46264562538903076,
+   "macro_f1": 0.4323124739677407
+  }
+ },
+ "aggregate": {
+  "in_scope_accuracy": 0.44881889763779526,
+  "oos_recall": 0.0,
+  "oos_precision": 0.0
+ }
+}

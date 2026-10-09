@@ -1,0 +1,27 @@
+{
+ "task": "sst2",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:microsoft/Phi-4-mini-instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.94
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.94,
+   "ece": 0.040268755708729585,
+   "brier": 0.09649142851820401,
+   "mean_top_prob": 0.9723030905090043,
+   "mean_confidence": 0.9446061810180088,
+   "sel_acc@50": 0.98,
+   "sel_acc@80": 0.975,
+   "aurc": 0.014559505549789496,
+   "macro_f1": 0.9399573029710016
+  }
+ },
+ "aggregate": {}
+}

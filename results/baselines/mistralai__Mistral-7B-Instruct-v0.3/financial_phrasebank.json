@@ -1,0 +1,27 @@
+{
+ "task": "financial_phrasebank",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:mistralai/Mistral-7B-Instruct-v0.3"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.68
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.68,
+   "ece": 0.2943670373980306,
+   "brier": 0.5921364733385301,
+   "mean_top_prob": 0.9572402917522248,
+   "mean_confidence": 0.9358604376283374,
+   "sel_acc@50": 0.7733333333333333,
+   "sel_acc@80": 0.7291666666666666,
+   "aurc": 0.19257167674469716,
+   "macro_f1": 0.6875123561176059
+  }
+ },
+ "aggregate": {}
+}

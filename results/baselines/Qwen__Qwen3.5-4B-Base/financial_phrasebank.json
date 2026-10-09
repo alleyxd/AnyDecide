@@ -1,0 +1,27 @@
+{
+ "task": "financial_phrasebank",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:Qwen/Qwen3.5-4B-Base"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.51
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.51,
+   "ece": 0.29808034657241045,
+   "brier": 0.687807796576505,
+   "mean_top_prob": 0.8010634598272126,
+   "mean_confidence": 0.7015951897408189,
+   "sel_acc@50": 0.68,
+   "sel_acc@80": 0.5541666666666667,
+   "aurc": 0.30250968282508184,
+   "macro_f1": 0.5557457593956477
+  }
+ },
+ "aggregate": {}
+}

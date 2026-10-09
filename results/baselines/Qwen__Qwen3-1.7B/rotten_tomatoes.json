@@ -1,0 +1,27 @@
+{
+ "task": "rotten_tomatoes",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:Qwen/Qwen3-1.7B"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.84
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.84,
+   "ece": 0.15043781857378563,
+   "brier": 0.3025172540738491,
+   "mean_top_prob": 0.9904378185737855,
+   "mean_confidence": 0.9808756371475712,
+   "sel_acc@50": 0.9466666666666667,
+   "sel_acc@80": 0.9041666666666667,
+   "aurc": 0.05495083777586056,
+   "macro_f1": 0.8399715504978662
+  }
+ },
+ "aggregate": {}
+}

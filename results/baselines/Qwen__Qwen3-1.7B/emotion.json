@@ -1,0 +1,27 @@
+{
+ "task": "emotion",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:Qwen/Qwen3-1.7B"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.52
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.52,
+   "ece": 0.4556353328977014,
+   "brier": 0.9319087371327002,
+   "mean_top_prob": 0.9747351566209649,
+   "mean_confidence": 0.9696821879451577,
+   "sel_acc@50": 0.6466666666666666,
+   "sel_acc@80": 0.5583333333333333,
+   "aurc": 0.35294061193919796,
+   "macro_f1": 0.4182811859753899
+  }
+ },
+ "aggregate": {}
+}

@@ -1,0 +1,31 @@
+{
+ "task": "clinc150",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:meta-llama/Llama-3.1-8B-Instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.5033333333333333
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.5033333333333333,
+   "ece": 0.1846258300668018,
+   "brier": 0.6806498853865317,
+   "mean_top_prob": 0.6879591634001351,
+   "mean_confidence": 0.685878891156136,
+   "sel_acc@50": 0.7733333333333333,
+   "sel_acc@80": 0.6083333333333333,
+   "aurc": 0.23060334082845657,
+   "macro_f1": 0.5124581732398985
+  }
+ },
+ "aggregate": {
+  "in_scope_accuracy": 0.5826771653543307,
+  "oos_recall": 0.06521739130434782,
+  "oos_precision": 1.0
+ }
+}

@@ -1,0 +1,27 @@
+{
+ "task": "rotten_tomatoes",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:microsoft/Phi-4-mini-instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.87
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.87,
+   "ece": 0.09418315998470271,
+   "brier": 0.22041558415598222,
+   "mean_top_prob": 0.9608498266513694,
+   "mean_confidence": 0.921699653302739,
+   "sel_acc@50": 0.9533333333333334,
+   "sel_acc@80": 0.9208333333333333,
+   "aurc": 0.048305142953384894,
+   "macro_f1": 0.8695812107768278
+  }
+ },
+ "aggregate": {}
+}

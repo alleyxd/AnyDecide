@@ -1,0 +1,27 @@
+{
+ "task": "ag_news",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:microsoft/Phi-4-mini-instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.8533333333333334
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.8533333333333334,
+   "ece": 0.11483635709488517,
+   "brier": 0.25230258283025736,
+   "mean_top_prob": 0.9605985353505085,
+   "mean_confidence": 0.947464713800678,
+   "sel_acc@50": 0.9466666666666667,
+   "sel_acc@80": 0.9208333333333333,
+   "aurc": 0.05600461181984816,
+   "macro_f1": 0.8521119010249445
+  }
+ },
+ "aggregate": {}
+}

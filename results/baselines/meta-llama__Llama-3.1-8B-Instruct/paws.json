@@ -1,0 +1,28 @@
+{
+ "task": "paws",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:meta-llama/Llama-3.1-8B-Instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.65
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.65,
+   "balanced_accuracy": 0.6897478296816866,
+   "f1": 0.6808510638297872,
+   "precision": 0.5436893203883495,
+   "recall": 0.9105691056910569,
+   "auroc": 0.7906159570070277,
+   "auprc": 0.6926838936445674,
+   "ece": 0.2567497993052685,
+   "brier": 0.2622284891231412,
+   "positive_rate": 0.41
+  }
+ },
+ "aggregate": {}
+}

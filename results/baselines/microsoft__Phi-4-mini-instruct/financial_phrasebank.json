@@ -1,0 +1,27 @@
+{
+ "task": "financial_phrasebank",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:microsoft/Phi-4-mini-instruct"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.4633333333333333
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.4633333333333333,
+   "ece": 0.45759512149471904,
+   "brier": 0.9196101042112553,
+   "mean_top_prob": 0.9207373023853942,
+   "mean_confidence": 0.8811059535780913,
+   "sel_acc@50": 0.68,
+   "sel_acc@80": 0.5083333333333333,
+   "aurc": 0.31496784271026407,
+   "macro_f1": 0.47869068346780197
+  }
+ },
+ "aggregate": {}
+}

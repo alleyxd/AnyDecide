@@ -1,0 +1,28 @@
+{
+ "task": "boolq",
+ "n_examples": 300,
+ "n_answered": 300,
+ "models": [
+  "hf:mistralai/Mistral-7B-Instruct-v0.3"
+ ],
+ "primary": {
+  "head": "answer",
+  "metric": "accuracy",
+  "value": 0.8533333333333334
+ },
+ "heads": {
+  "answer": {
+   "accuracy": 0.8533333333333334,
+   "balanced_accuracy": 0.8531958003315527,
+   "f1": 0.8735632183908046,
+   "precision": 0.8941176470588236,
+   "recall": 0.8539325842696629,
+   "auroc": 0.9337585190642844,
+   "auprc": 0.9551392461647488,
+   "ece": 0.13944358010728977,
+   "brier": 0.13817980891785084,
+   "positive_rate": 0.5933333333333334
+  }
+ },
+ "aggregate": {}
+}
