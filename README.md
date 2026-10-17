@@ -1,5 +1,7 @@
 # AnyDecide
 
+[![tests](https://github.com/alleyxd/AnyDecide/actions/workflows/tests.yml/badge.svg)](https://github.com/alleyxd/AnyDecide/actions/workflows/tests.yml)
+
 Turn a local language model into a fast decision API. Instead of generating text you have to parse, you ask typed
 questions (pick one option, give a score, yes or no) and get typed answers with probabilities back. All questions
 about one input run in a single batched forward pass, and each answer is read straight from the next-token
