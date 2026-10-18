@@ -1,0 +1,293 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage[margin=0.8in]{geometry}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=*}
+
+\title{Decisions in One Forward Pass:\\Typed Answers from Local Language Models, and Making\\Their Yes/No Probabilities Mean Something}
+\author{Ali Ashter\\\texttt{hello@ashter.dev}}
+\date{October 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Many uses of language models are decisions, not prose: route a ticket, flag a message, answer yes or no. Asking a
+model to write its answer as JSON is slow and has to be parsed. We study the alternative of reading typed answers
+directly from next-token probabilities over single-token answer codes, with all questions about one input batched
+into one forward pass. On an RTX 5090, six answers about a support ticket take 57\,ms with a 4B model, against 1.1 to
+2.5\,s for the same model writing them as JSON. We then ask what it takes to make these answers good. Across eleven
+open models on twelve classification tasks, untrained models are badly overconfident and four training-free prompt
+changes do not close the gap. For yes/no questions, which recent work has shown to be poorly calibrated, we test
+the corrections that work proposed but did not evaluate. Averaging a question with its complement, which makes the
+probabilities coherent by construction, barely improves calibration and hurts ranking when the opposite is
+phrased as a negation. Plain Platt scaling does what is needed: across four open models and six tasks, 25 labels cut
+mean calibration error from 0.197 to 0.089 and raise accuracy from 0.779 to 0.845; 100 labels bring every
+model-task pair below 0.075. Finally, a rank-16 LoRA trained for 74 minutes on 15 datasets disjoint
+from the benchmark raises a 4B model's mean score from 0.713 to 0.756 and cuts its calibration error from 0.241 to
+0.108. Code, data builders and every score are public at \url{https://github.com/alleyxd/AnyDecide}.
+\end{abstract}
+
+\section{Introduction}
+
+A support system that reads a message and must decide which team handles it, how urgent it is and whether the
+customer is about to leave does not need a paragraph. It needs three typed values, ideally with probabilities it can
+threshold. The common way to get them from a language model is to ask for JSON and parse it. That costs one decoding
+step per output token, can fail to parse, and gives no usable confidence.
+
+A decision can instead be read in a single step. If each option has a single-token code (A, B, C; Yes or No; 0 to 9),
+the model's next-token distribution restricted to those codes is a probability over the options, always of the
+requested type. Questions about the same input differ only in their last lines, so they can share one batched forward
+pass. Commercial ``decision models'' are built around this idea \cite{jev}, and open projects have followed
+\cite{kev}. Two practical questions remain open for anyone who wants to do this with a model they run themselves:
+how good are those probabilities out of the box, and what is the cheapest way to fix them?
+
+Our contributions:
+\begin{itemize}
+\item \textbf{A minimal implementation and speed measurements.} Six typed answers about one input cost about as
+much as one (57\,ms vs 46\,ms on a 4B model), 20 to 45 times faster than generating the same answers as JSON.
+\item \textbf{A baseline across eleven open models} on twelve public classification and routing tasks, scored with
+identical prompts and samples, and four training-free changes that do not help: scoring option names instead of
+codes, few-shot examples, permuting options, and two-stage choice for large label sets.
+\item \textbf{A test of corrections for yes/no calibration.} Recent work reports that yes/no probabilities from
+decision models and open LLMs are miscalibrated and incoherent ($P(X) + P(\lnot X) \neq 1$) but evaluates no fix
+\cite{deusser,complement}. We compare complement averaging, temperature scaling, Platt scaling, a two-feature
+variant and isotonic regression across four models and six binary tasks, as a function of the number of
+labelled examples.
+\item \textbf{Training on disjoint data.} A small LoRA trained on 36k decision questions from 15 datasets that do not
+appear in the benchmark improves accuracy where untrained models are most biased and halves calibration error, and
+we report where it hurts.
+\end{itemize}
+
+\section{Related work}
+
+\textbf{Decision models.} Jev \cite{jev} is a closed model that answers typed questions (choice, score and
+probability, in its terms) from one pass; Deusser et al.\ evaluate it on 37 datasets and find high AUROC but poorly
+calibrated yes/no probabilities, with per-question threshold tuning as the only fix tested \cite{deusser}. Kev
+\cite{kev} is an open family of LoRA-tuned Qwen models with a pointer head and a fitted temperature, trained
+extensively and reported within a few points of Jev. Our goal is narrower: a small, dependency-light way to do this
+with any Hugging Face model, and a careful look at calibration fixes.
+
+\textbf{Calibration.} Temperature scaling \cite{guo} and Platt scaling \cite{platt} fit one or two parameters on
+held-out labels; isotonic regression \cite{zadrozny} fits a monotone map. Contextual calibration \cite{zhao}
+corrects a model's prior over labels without labels. Language models' token probabilities can be informative about
+correctness \cite{kadavath}, but chat tuning makes them overconfident. Li et al.\ show that yes/no probabilities
+violate the complement axiom by up to 0.29 for open models \cite{complement}.
+
+\textbf{Constrained output.} Grammar-constrained decoding guarantees valid structure \cite{outlines} but still
+generates token by token; reading a single next-token distribution avoids decoding altogether.
+
+\section{Method}
+
+A question has a type: \emph{choice} (one of $k$ options), \emph{score} (one of up to ten ordered levels) or
+\emph{yes/no}. It is rendered into a fixed prompt: the input (``state''), the question, the options with their codes
+(A, B, \dots; levels 0 to 9; or Yes/No), and an instruction to reply with the code only. The prompt goes through the
+model's chat template with thinking disabled. We take the logits of the next token, keep the entries of the answer
+codes, and apply a softmax. All questions about one state are padded into one batch and run in a single forward pass
+that keeps only the last position's logits. Every code must be a single token in the model's tokenizer, which holds
+for the common open families; the library checks this and fails loudly otherwise. The output is always of the
+requested type, with a probability per option, a score's expected level, or $P(\text{yes})$.
+
+\section{Speed}
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lrr}
+\toprule
+ & Qwen3-4B & tuned 4B \\
+\midrule
+1 question & 46\,ms & 50\,ms \\
+6 questions, one batch & 57\,ms & 57\,ms \\
+6 answers written as JSON & 2{,}543\,ms & 1{,}138\,ms \\
+\midrule
+Speed-up & 45$\times$ & 20$\times$ \\
+\bottomrule
+\end{tabular}
+\caption{Latency for six questions about one short support ticket, RTX 5090, bf16, Hugging Face Transformers.
+The tuned model writes shorter JSON, which is why its baseline is faster.}
+\label{tab:speed}
+\end{table}
+
+Table~\ref{tab:speed} shows the effect of batching: six answers cost 1.2 times one. Generated JSON grows with the
+number of fields and with the model's verbosity; one-pass decisions do not.
+
+\section{How good are untrained models?}
+
+We use twelve public tasks: SST-2, Rotten Tomatoes, emotion, financial phrasebank, AG News, Banking77 (77 intents),
+CLINC150 (150 intents), SMS spam and toxic chat (both scored by F1), BoolQ, ANLI and PAWS, with the same 300 examples
+and prompts for every model, through an existing benchmarking harness for decision models.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lr}
+\toprule
+Model (untrained) & Mean of 12 \\
+\midrule
+Qwen3.5-9B & 0.781 \\
+Qwen3.5-4B & 0.747 \\
+Qwen2.5-7B-Instruct & 0.746 \\
+Qwen3-4B & 0.713 \\
+Mistral-7B-Instruct-v0.3 & 0.667 \\
+Llama-3.1-8B-Instruct & 0.652 \\
+Phi-4-mini & 0.611 \\
+Qwen3.5-2B & 0.571 \\
+Qwen3-1.7B & 0.535 \\
+Qwen3-0.6B & 0.433 \\
+\bottomrule
+\end{tabular}
+\caption{Mean accuracy (F1 for spam and toxic chat) over twelve tasks, 300 examples each, one-pass readout.}
+\label{tab:base}
+\end{table}
+
+Size helps but is not everything (Table~\ref{tab:base}): Qwen3.5-4B matches Qwen2.5-7B and beats both 7 to 8B models
+from other families. The main failure is calibration. Untrained chat models put near-certain probability on almost
+every answer; the speed test above shows 1.0 on every one of six questions, including uncertain ones.
+
+\textbf{Training-free changes that did not help.} On Qwen3.5-4B we tried scoring the option names instead of letter
+codes (worse on four of five tasks, e.g.\ CLINC150 0.680 vs 0.723, and three to ten times slower), two to eight
+few-shot examples (mean 0.748 zero-shot, 0.762 with four, 0.772 with eight, with gains concentrated on financial
+phrasebank and losses on three tasks), averaging over three option orderings (0.738 vs 0.722 on the same eight
+tasks) and a two-stage choice for the large intent sets (no gain). A label-free prior correction \cite{zhao} was
+unreliable and hurt the imbalanced tasks (toxic chat F1 0.765 to 0.571). Fitting a per-option bias on 150 labels
+helped consistently, by 2 to 12 points (financial phrasebank 0.543 to 0.800), which motivates the calibration study.
+
+\section{Making yes/no probabilities mean something}
+
+\textbf{Setup.} Six binary tasks: SST-2, Rotten Tomatoes, BoolQ, SMS spam, PAWS and MRPC, 1{,}000 examples each
+(all 872 for SST-2). Every example is asked three ways: the question (``Is this review positive?''), a natural
+opposite (``Is this review negative?'') and a plain negation (``Is it false that this review is positive?''). We record
+the margin $z = \log P(\text{Yes}) - \log P(\text{No})$ for each and compare: the raw probability $\sigma(z)$;
+complement averaging $\tfrac12(\sigma(z) + 1 - \sigma(z'))$ with either opposite, which is coherent by construction;
+temperature scaling $\sigma(z/T)$; Platt scaling $\sigma(az+b)$; a two-feature Platt model on $(z, z_\text{opp})$; and
+isotonic regression. Fitted methods use $n \in \{25, 50, 100, 200, 400\}$ labels and are tested on 500 held-out
+examples, averaged over ten random splits. We report expected calibration error (15 bins), Brier score, AUROC and
+accuracy at 0.5. Models: Qwen3-4B, Qwen3-8B, Llama-3.1-8B-Instruct and Mistral-7B-Instruct-v0.3, all used as-is.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lrrrr}
+\toprule
+Method & ECE & Brier & AUROC & Acc \\
+\midrule
+Raw $\sigma(z)$ & 0.197 & 0.198 & 0.889 & 0.779 \\
+Complement avg., opposite & 0.178 & 0.183 & 0.886 & 0.787 \\
+Complement avg., negation & 0.165 & 0.186 & 0.837 & 0.789 \\
+Temperature, $n{=}100$ & 0.141 & 0.145 & 0.907 & 0.779 \\
+\midrule
+Platt, $n{=}25$ & 0.089 & 0.119 & 0.903 & 0.845 \\
+Platt, $n{=}50$ & 0.070 & 0.110 & 0.906 & 0.851 \\
+Platt, $n{=}100$ & 0.060 & 0.107 & 0.907 & 0.854 \\
+Platt, $n{=}200$ & \textbf{0.055} & \textbf{0.106} & 0.907 & \textbf{0.855} \\
+Platt on $(z, z_\text{opp})$, $n{=}100$ & 0.059 & 0.107 & 0.906 & 0.854 \\
+Isotonic, $n{=}25$ & 0.096 & 0.122 & 0.885 & 0.840 \\
+Isotonic, $n{=}200$ & \textbf{0.055} & 0.107 & 0.905 & 0.854 \\
+\bottomrule
+\end{tabular}
+\caption{Yes/no calibration, mean over four models and six tasks (24 pairs), 500 test examples per pair, fitted
+methods averaged over ten random splits.}
+\label{tab:noul}
+\end{table}
+
+\textbf{Results.} Table~\ref{tab:noul} averages the 24 model-task pairs; per-pair numbers are in the repository.
+Four findings hold across models.
+
+\emph{Raw probabilities are badly calibrated, and the worst cases are biases, not overconfidence.} Raw ECE ranges
+from 0.068 to 0.604. The largest errors are on SMS spam (0.59 for Llama-3.1-8B, 0.60 for Qwen3-4B), where the models
+call far too many messages spam.
+
+\emph{Complement averaging is not a fix.} The answers really are incoherent: $\sigma(z) + \sigma(z')$ misses 1 by
+0.18 to 0.30 on average with the natural opposite, and by up to 0.77 (Mistral) with a plain negation. But averaging
+with the opposite cuts mean ECE only from 0.197 to 0.178 and makes it worse on 7 of the 24 pairs (Llama-3.1-8B on
+MRPC: 0.130 to 0.268). With the negated question it also damages ranking: AUROC falls from 0.889 to 0.837, because
+the model's answer to an awkwardly negated question is a noisier signal than its answer to the original. Coherence by
+construction does not imply calibration.
+
+\emph{Temperature alone is not enough.} A single temperature can only sharpen or soften; it cannot move the decision
+point. It leaves the biased spam cases at ECE 0.39 to 0.47 and does not change accuracy.
+
+\emph{Two parameters and a few dozen labels are.} Platt scaling, which adds a bias to the temperature, halves mean
+ECE with 25 labels, reaches 0.060 with 100, and with 100 labels keeps every one of the 24 pairs below 0.075. Because
+it moves the threshold, it also raises accuracy at 0.5, by 7.5 points on average with 100 labels (3.5 for Mistral to 10.5 for Qwen3-4B), while
+leaving AUROC unchanged: the model
+already ranks examples well, its probabilities are simply offset. Isotonic regression needs more labels to match it,
+and using the opposite question as a second feature adds nothing.
+
+\emph{Training helps, and Platt still helps after it.} We ran the same study on Qwen3-4B with the decision LoRA of the
+next section, trained on none of these six datasets. Raw mean ECE falls from 0.247 to 0.107, accuracy from 0.749 to
+0.838 and AUROC from 0.863 to 0.926, and five of the six tasks are already at ECE 0.046 to 0.080 without any fitting.
+The exception is PAWS (0.344), the same task where training hurt accuracy; 100 labels of Platt scaling bring it to
+0.072 and the six-task mean to 0.055. The tuned model is markedly worse with negated questions, though: complement
+averaging with the negation raises its ECE to 0.260, so training on positively phrased questions narrows what the
+model handles well.
+
+\section{Training a decision model on disjoint data}
+
+We build 36{,}194 decision questions from 15 public datasets that do not appear in the benchmark (DBpedia, Yahoo
+Answers, Amazon and Yelp reviews, SNLI, MNLI, QQP, QNLI, four TweetEval tasks, MASSIVE intents, Civil Comments,
+financial tweets and 20 Newsgroups), each rendered with exactly the inference prompt, with the answer code as the
+target. One epoch of LoRA (rank 16) on Qwen3-4B takes 74 minutes on an RTX 5090 at 10.6\,GB peak memory.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lrr}
+\toprule
+Task & Qwen3-4B & + LoRA \\
+\midrule
+CLINC150 (150 intents) & 0.593 & \textbf{0.793} \\
+SMS spam (F1) & 0.553 & \textbf{0.776} \\
+Financial phrasebank & 0.737 & \textbf{0.837} \\
+Banking77 & 0.610 & \textbf{0.683} \\
+BoolQ & 0.853 & \textbf{0.880} \\
+SST-2 & 0.947 & \textbf{0.963} \\
+Rotten Tomatoes & 0.883 & \textbf{0.893} \\
+Emotion & 0.540 & \textbf{0.553} \\
+AG News & 0.877 & 0.877 \\
+Toxic chat (F1) & \textbf{0.750} & 0.737 \\
+ANLI & \textbf{0.543} & 0.503 \\
+PAWS & \textbf{0.667} & 0.573 \\
+\midrule
+Mean & 0.713 & \textbf{0.756} \\
+Mean ECE & 0.241 & \textbf{0.108} \\
+\bottomrule
+\end{tabular}
+\caption{Effect of the decision LoRA, same 300 examples per task. None of these datasets is in the training data.}
+\label{tab:lora}
+\end{table}
+
+Training helps most where the untrained model was most biased: routing among 150 intents (+20 points) and spam
+(+22 points F1), and it more than halves calibration error (Table~\ref{tab:lora}). It hurts on PAWS ($-9.4$) and
+ANLI ($-4.0$). PAWS pairs share almost all their words, and the training data's paraphrase source (QQP) does not,
+so the tuned model learns that word overlap means paraphrase.
+
+\section{Limitations}
+
+Accuracy numbers use 300 examples per task, so differences under about three points are within noise. All timings
+come from one consumer GPU under Windows with Hugging Face Transformers; a serving engine would be faster for both
+methods. We trained one model size. Knowledge-heavy tasks are out of scope: one-pass readout cannot make a small model
+know more. Prompts were not tuned per task, by design.
+
+\section{Conclusion}
+
+Reading decisions from one forward pass is fast enough to put a language model in places where generation is too
+slow, and the answers always have the right type. Out of the box the probabilities are not trustworthy.
+For yes/no questions, making the answer coherent does not make it calibrated; fitting two parameters on 25 to 100
+labelled examples does, and it is the cheapest improvement available. A short LoRA on unrelated public data makes a 4B model a
+better and much better-calibrated decision maker, except on tasks that reward ignoring word overlap.
+
+\begin{thebibliography}{99}\small
+\bibitem{jev} TypeSafe. Jev, a System One decision model. Product release, September 2026.
+\bibitem{kev} J.~Palmer. Kev: open decision models. \url{https://github.com/jaredpalmer/kev}, 2026.
+\bibitem{deusser} T.~Deusser, L.~Sparrenberg, R.~Sifa. Evaluating and benchmarking the System One model Jev. arXiv:2609.37647, 2026.
+\bibitem{complement} Li, He, Li. Beyond calibration: do a typed-decision model's probabilities obey the probability axioms? arXiv:2609.33209, 2026.
+\bibitem{guo} C.~Guo, G.~Pleiss, Y.~Sun, K.~Weinberger. On calibration of modern neural networks. ICML, 2017.
+\bibitem{platt} J.~Platt. Probabilistic outputs for support vector machines. Advances in Large Margin Classifiers, 1999.
+\bibitem{zadrozny} B.~Zadrozny, C.~Elkan. Transforming classifier scores into accurate multiclass probability estimates. KDD, 2002.
+\bibitem{zhao} Z.~Zhao, E.~Wallace, S.~Feng, D.~Klein, S.~Singh. Calibrate before use: improving few-shot performance of language models. ICML, 2021.
+\bibitem{kadavath} S.~Kadavath et al. Language models (mostly) know what they know. arXiv:2207.05221, 2022.
+\bibitem{outlines} B.~Willard, R.~Louf. Efficient guided generation for large language models. arXiv:2307.09702, 2023.
+\end{thebibliography}
+
+\end{document}
