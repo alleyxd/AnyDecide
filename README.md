@@ -137,6 +137,25 @@ Before training, I tried to improve the untrained models without it. These are m
 
 Training gave by far the largest gain, though not on every task (see the table above).
 
+## Paper
+
+[Decisions in One Forward Pass: Typed Answers from Local Language Models, and Making Their Yes/No Probabilities Mean
+Something](paper/anydecide.pdf) covers the speed and accuracy results above and a calibration study of yes/no answers
+across five models and six tasks. The short version: averaging a question with its opposite makes the answers coherent
+but not calibrated, while Platt scaling on 25 labelled examples more than halves calibration error (0.197 to 0.089)
+and raises accuracy from 0.779 to 0.845. `experiments/run_noul.sh` reproduces the study; every model score it used is in
+`results/noul/`.
+
+```bibtex
+@misc{ashter2026anydecide,
+  title  = {Decisions in One Forward Pass: Typed Answers from Local Language Models, and Making Their Yes/No
+            Probabilities Mean Something},
+  author = {Ashter, Ali},
+  year   = {2026},
+  url    = {https://github.com/alleyxd/AnyDecide}
+}
+```
+
 ## Tests
 
 ```bash
