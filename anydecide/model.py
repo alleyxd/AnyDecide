@@ -40,16 +40,26 @@ class Decider:
                                             add_generation_prompt=True, enable_thinking=False)
 
     @torch.no_grad()
-    def decide(self, state, questions: dict) -> dict:
-        keys = list(questions)
-        rendered = [render(state, questions[k]) for k in keys]
+    def _logprobs(self, rendered: list) -> list[torch.Tensor]:
+        """One forward pass over the rendered questions; the log-probabilities of each one's answer codes."""
         enc = self.tok([self.prompt(r.text) for r in rendered], return_tensors="pt", padding=True,
                        add_special_tokens=False).to(self.model.device)
         logits = self.model(**enc, logits_to_keep=1).logits[:, -1].float()
+        lp = torch.log_softmax(logits, -1)
+        return [lp[row, [self.code_id(c) for c in r.codes]].cpu() for row, r in enumerate(rendered)]
+
+    def code_logprobs(self, states: list, question: dict) -> list[list[float]]:
+        """The same question about several states, batched; used to fit a calibration."""
+        return [lp.tolist() for lp in self._logprobs([render(s, question) for s in states])]
+
+    def decide(self, state, questions: dict, calibration: dict | None = None) -> dict:
+        """calibration: optional {question name: anydecide.calibrate.Calibration} for some or all questions."""
+        keys = list(questions)
+        rendered = [render(state, questions[k]) for k in keys]
         out = {}
-        for row, (k, r) in enumerate(zip(keys, rendered)):
-            lp = torch.log_softmax(logits[row], -1)[[self.code_id(c) for c in r.codes]] / self.temperature
-            probs = torch.softmax(lp, -1).tolist()
+        for k, r, lp in zip(keys, rendered, self._logprobs(rendered)):
+            cal = (calibration or {}).get(k)
+            probs = cal.apply(lp) if cal else torch.softmax(lp / self.temperature, -1).tolist()
             out[k] = answer(r, probs, questions[k])
         return {"answers": out}
 

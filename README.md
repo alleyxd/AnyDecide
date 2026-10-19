@@ -69,6 +69,27 @@ for every model. Score = accuracy, or F1 for spam and toxic-chat detection.
 Every model except the first is used as-is, with no training. Any of them works with `Decider` directly; training
 makes a model better at it (next section).
 
+## Calibrating with a few labels
+
+Untrained chat models are far too sure of themselves, and many lean towards one answer: a small model asked whether
+a review is positive says yes with 0.98 probability on average. A few dozen labelled examples fix most of that
+without training. Yes/no questions get Platt scaling on the Yes/No margin; choice and score questions get a
+temperature and a bias per option. A fit is a handful of numbers you can save next to the question.
+
+```python
+from anydecide import Calibration, calibrate
+
+q = {"type": "noul", "instructions": "Is the sentiment of this review positive?"}
+cal = calibrate.fit(d, q, [(review, label) for review, label in labelled[:60]])
+cal.save("positive.json")
+
+d.decide(review, {"positive": q}, calibration={"positive": Calibration.load("positive.json")})
+```
+
+On SST-2 with Qwen3-0.6B, fitting on 60 reviews and testing on 100 others: calibration error 0.428 to 0.159,
+accuracy 0.55 to 0.60. For the HTTP service, point `ANYDECIDE_CALIBRATION` at a JSON file of
+`{question name: saved calibration}`.
+
 ## Training a decision model
 
 `train/build_data.py` builds 36,194 decision questions from 15 public datasets that do **not** appear in the
