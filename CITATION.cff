@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite the paper."
+title: "AnyDecide"
+authors:
+  - family-names: Ashter
+    given-names: Ali
+license: MIT
+repository-code: "https://github.com/alleyxd/AnyDecide"
+doi: 10.5281/zenodo.23549804
+type: software
+preferred-citation:
+  type: article
+  title: "Decisions in One Forward Pass: Typed Answers from Local Language Models, and Making Their Yes/No Probabilities Mean Something"
+  authors:
+    - family-names: Ashter
+      given-names: Ali
+  year: 2026
+  doi: 10.5281/zenodo.23555119
+  publisher:
+    name: Zenodo
