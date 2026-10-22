@@ -1,5 +1,6 @@
 # AnyDecide
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23549804.svg)](https://doi.org/10.5281/zenodo.23549804)
 [![tests](https://github.com/alleyxd/AnyDecide/actions/workflows/tests.yml/badge.svg)](https://github.com/alleyxd/AnyDecide/actions/workflows/tests.yml)
 
 Turn a local language model into a fast decision API. Instead of generating text you have to parse, you ask typed
@@ -174,6 +175,7 @@ and raises accuracy from 0.779 to 0.845. `experiments/run_noul.sh` reproduces th
   author = {Ashter, Ali},
   year   = {2026},
   url    = {https://github.com/alleyxd/AnyDecide}
+  doi    = {10.5281/zenodo.23549804},
 }
 ```
 
