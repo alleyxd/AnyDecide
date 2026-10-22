@@ -1,0 +1,20 @@
+{
+  "title": "Decisions in One Forward Pass: Typed Answers from Local Language Models, and Making Their Yes/No Probabilities Mean Something",
+  "description": "Reads typed decisions from next-token probabilities over single-token answer codes in one batched forward pass, and studies how to calibrate them. Platt scaling with 25 labels roughly halves calibration error. Includes the library, data builders, results and the paper.",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "creators": [
+    {
+      "name": "Ashter, Ali"
+    }
+  ],
+  "keywords": [
+    "large language models",
+    "calibration",
+    "classification",
+    "decision models",
+    "Platt scaling"
+  ],
+  "license": "MIT",
+  "access_right": "open"
+}
