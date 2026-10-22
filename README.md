@@ -1,6 +1,7 @@
 # AnyDecide
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23549804.svg)](https://doi.org/10.5281/zenodo.23549804)
+[![Paper DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23555119.svg)](https://doi.org/10.5281/zenodo.23555119)
+[![Code DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23549804.svg)](https://doi.org/10.5281/zenodo.23549804)
 [![tests](https://github.com/alleyxd/AnyDecide/actions/workflows/tests.yml/badge.svg)](https://github.com/alleyxd/AnyDecide/actions/workflows/tests.yml)
 
 Turn a local language model into a fast decision API. Instead of generating text you have to parse, you ask typed
@@ -162,7 +163,7 @@ Training gave by far the largest gain, though not on every task (see the table a
 ## Paper
 
 [Decisions in One Forward Pass: Typed Answers from Local Language Models, and Making Their Yes/No Probabilities Mean
-Something](paper/anydecide.pdf) covers the speed and accuracy results above and a calibration study of yes/no answers
+Something](paper/anydecide.pdf) ([Zenodo](https://doi.org/10.5281/zenodo.23555119)) covers the speed and accuracy results above and a calibration study of yes/no answers
 across five models and six tasks. The short version: averaging a question with its opposite makes the answers coherent
 but not calibrated, while Platt scaling on 25 labelled examples more than halves calibration error (0.197 to 0.089)
 and raises accuracy from 0.779 to 0.845. `experiments/run_noul.sh` reproduces the study; every model score it used is in
@@ -174,8 +175,8 @@ and raises accuracy from 0.779 to 0.845. `experiments/run_noul.sh` reproduces th
             Probabilities Mean Something},
   author = {Ashter, Ali},
   year   = {2026},
-  url    = {https://github.com/alleyxd/AnyDecide}
-  doi    = {10.5281/zenodo.23549804},
+  doi    = {10.5281/zenodo.23555119},
+  url    = {https://doi.org/10.5281/zenodo.23555119},
 }
 ```
 
