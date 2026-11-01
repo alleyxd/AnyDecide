@@ -93,6 +93,9 @@ def fit(decider, question: dict, examples: list[tuple], batch: int = 16) -> Cali
             else:
                 gold.append(int(ans))
     if kind == "noul":
+        # with one class only the fit pushes b to infinity and every answer comes out certain
+        if len(set(gold)) < 2:
+            raise ValueError("a yes/no calibration needs at least one Yes and one No example")
         a, b = fit_yes_no([r[0] - r[1] for r in rows], gold)
         return Calibration("noul", a=a, b=b, n=len(rows))
     t, bias = fit_choice(rows, gold)
