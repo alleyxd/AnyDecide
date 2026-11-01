@@ -76,3 +76,12 @@ def test_choice_bias_moves_the_favoured_option(tmp_path):
     assert max(range(3), key=lambda i: cal.apply(torch.tensor(rows[1]))[i]) == 1
     cal.save(tmp_path / "c.json")
     assert Calibration.load(tmp_path / "c.json") == cal
+
+
+def test_yes_no_fit_needs_both_answers():
+    from types import SimpleNamespace
+    from anydecide.calibrate import fit
+    decider = SimpleNamespace(code_logprobs=lambda states, q: [[-0.1, -2.5] for _ in states])
+    with pytest.raises(ValueError, match="one Yes and one No"):
+        fit(decider, QS["churn"], [("a", True), ("b", "yes")])
+    assert fit(decider, QS["churn"], [("a", True), ("b", False)]).kind == "noul"
