@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   pull_request:
+  # dependencies are unpinned, so also run weekly to catch a new release that breaks the tests
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
 
 jobs:
   test:
